@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -77,23 +78,26 @@ class Order extends Section implements Initializable
             AdminColumn::text('phone', 'Phone')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('created_at', 'Created')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('completed_at', 'Completed')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('user.name', 'Имя Менеджера')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('type', 'Тип заказа')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('status', 'Статус')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::count('orderItems.product_id', 'Кол-во продуктов')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::lists('orderItems.product_name', 'Продукты', 'orderItems.product')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('orderItems.discount', 'Скидка')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('orderItems.cost', 'Сумма')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('user.name', 'Manager Name')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('type', 'Type')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('status', 'Status')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::count('orderItems.product_id', 'Count product')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            $products = AdminColumn::lists('orderItems.product', 'Products<br/><small>lists</small>')->setWidth('50px')->setHtmlAttribute('class', 'hidden-sm hidden-xs hidden-md'),
+            AdminColumn::text('orderItems.discount', 'Discount')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('orderItems.cost', 'Cost')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
         ];
 
         $display = AdminDisplay::datatablesAsync()
             ->setName('firstdatatables')
             ->with('user', 'orderItems')
+            ->setDisplaySearch(true)
             ->setOrder([[0, 'asc']])
             ->paginate(5)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+        $products->getHeader()->setHtmlAttribute('class', 'hidden-sm hidden-xs hidden-md');
 
         return $display;
     }
@@ -125,8 +129,7 @@ class Order extends Section implements Initializable
 
             AdminFormElement::select('status', 'Status', $this->arrayStatus),
 
-            AdminFormElement::select('product_id', 'Кол-во продуктов'),
-            AdminFormElement::select('product_name', 'Продукты'),
+            AdminFormElement::select(),
 
         ]);
 
