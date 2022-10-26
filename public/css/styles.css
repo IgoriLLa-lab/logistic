@@ -1,0 +1,38 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+    background-color: whitesmoke;
+    min-width: 320px;
+}
+
+section {
+    padding: 50px 0;
+}
+
+a {
+    color: #0b90c4;
+}
+
+a:hover {
+    color: black;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #0b90c4;
+    font-weight: 500;
+}
+
+.product-title {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+}
+.product-title:hover{
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.99);
+}
+
